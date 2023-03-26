@@ -1,43 +1,43 @@
 package com.turkcellcamp.rentacar.api.controllers;
 
 import com.turkcellcamp.rentacar.business.abstracts.BrandService;
-import com.turkcellcamp.rentacar.entities.concretes.Brand;
+import com.turkcellcamp.rentacar.entities.Brand;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/brands")
 public class BrandsController {
-
-    private final BrandService brandService;
-
-    public BrandsController(BrandService brandService) {
-        this.brandService = brandService;
-    }
+    private final BrandService service;
 
     @GetMapping
-    public List<Brand> getAll() {
-        return brandService.getAll();
+    public List<Brand> getAll(){
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public Brand getById(@PathVariable int id) {
-        return brandService.getById(id);
+    public Brand getById(@PathVariable int id){
+        return service.getById(id);
     }
 
     @PostMapping
-    public Brand add(@RequestBody Brand brand) {
-        return brandService.add(brand);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Brand add(@RequestBody Brand brand){
+        return service.add(brand);
     }
 
     @PutMapping("/{id}")
-    public Brand updateById(@PathVariable int id, @RequestBody Brand brand) {
-        return brandService.updateById(id, brand);
+    public Brand update(@PathVariable int id,@RequestBody Brand brand){
+        return  service.update(id, brand);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
-        brandService.deleteById(id);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id){
+        service.delete(id);
     }
 }
